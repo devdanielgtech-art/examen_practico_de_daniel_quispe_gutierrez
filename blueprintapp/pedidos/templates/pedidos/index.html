@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de Pedidos{% endblock %}
+
+{% block content %}
+<h1>Listado de Pedidos</h1>
+
+<a href="{{ url_for('bp_pedidos.create') }}" class="btn btn-success mb-3">Nuevo Pedido</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Monto (Bs)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in pedidos %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.fecha.strftime('%d/%m/%Y') }}</td>
+            <td>{{ item.cliente.nombre }}</td>
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.monto }}</td>
+            <td>
+                <a href="{{ url_for('bp_pedidos.edit', id=item.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{{ url_for('bp_pedidos.delete', id=item.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar?')">Eliminar</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">No hay pedidos registrados</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

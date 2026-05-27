@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Pedido{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header"><h1 class="h3">Editar Pedido</h1></div>
+    <div class="card-body">
+        <form action="{{ url_for('bp_pedidos.edit', id=pedido.id) }}" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Cliente:</label>
+                <select name="cliente_id" class="form-control" required>
+                    {% for c in clientes %}
+                    <option value="{{ c.id }}" {% if c.id == pedido.cliente_id %}selected{% endif %}>{{ c.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Producto:</label>
+                <select name="producto_id" class="form-control" required>
+                    {% for p in productos %}
+                    <option value="{{ p.id }}" {% if p.id == pedido.producto_id %}selected{% endif %}>{{ p.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha:</label>
+                <input type="date" class="form-control" name="fecha" value="{{ pedido.fecha.strftime('%Y-%m-%d') }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <a href="{{ url_for('bp_pedidos.index') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
